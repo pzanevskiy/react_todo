@@ -9,10 +9,10 @@ class AddTask extends Component {
         priority: 'Low'
     }
 
-    addTask = (event) => {
-        const { text } = this.state;
-        const { deadline } = this.state;
-        const { priority } = this.state;
+    addTask = () => {
+        const { text } = this.state
+        const { deadline } = this.state
+        const { priority } = this.state
 
         if (text && deadline && priority) {
             let task = {
@@ -20,7 +20,7 @@ class AddTask extends Component {
                 deadline: moment(deadline).format("DD.MM.YYYY HH:mm"),
                 priority: priority
             }
-            this.props.addHandler(task);
+            this.props.addHandler(task)
             this.setState({
                 text: '',
                 deadline: moment().format('yyyy-MM-DDTHH:mm'),
@@ -42,25 +42,27 @@ class AddTask extends Component {
     }
 
     render() {
-        const { text } = this.state;
-        const { deadline } = this.state;
-        const { priority } = this.state;
+        const { text } = this.state
+        const { deadline } = this.state
+        const { priority } = this.state
 
         return (
-            <div>
-                <label>Text: </label>
-                <input className="form-control w-50" type="text" onChange={this.textChange} value={text} />
+            <div className="text-center">
+                <label className="w-75 text-start">Text:
+                <input className="form-control" placeholder="Some text..." type="text" onChange={this.textChange} value={text} />
+                </label>
+                <p/>
+                <label className="w-75 text-start">Deadline: 
+                <input className="form-control" type="datetime-local" onChange={this.dateChange} value={deadline} />
+                </label>
                 <p />
-                <label>Deadline: </label>
-                <input className="form-control w-50" type="datetime-local" onChange={this.dateChange} value={deadline} />
-                <p />
-                <label>Priority: </label>
-                <select className="form-select w-50" onChange={this.priorityChange} value={priority}>
+                <label className="w-75 text-start">Priority: <select className="form-select" onChange={this.priorityChange} value={priority}>
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
                     <option value="Low">Low</option>
-                </select>
-                <input type="button" className="btn btn-success border rounded-pill mt-3" value="Add task" onClick={this.addTask} />
+                </select></label>
+                <p/>
+                <input type="button" id="liveToastBtn" className="btn btn-success border rounded-pill mt-3" value="Add task" onClick={this.addTask} />
             </div>
         )
     }
