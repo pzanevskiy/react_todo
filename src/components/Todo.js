@@ -17,12 +17,12 @@ const Todo = props => {
                         {props.text}
                     </p>
                 </div>
-                <div className="col col-3 col-sm-2 col-xl-2">
+                <div className="col col-4 col-sm-3 col-xl-3">
                     <p className="text-wrap">
                         Deadline: {props.deadline}
                     </p>
                     <p className="text-wrap">
-                        Priority: {props.proirity}
+                        Priority: {props.priority}
                     </p>
                 </div>
                 <div className="col col-2 col-sm-1 col-xl-1">
