@@ -9,6 +9,7 @@ import moment from 'moment'
 import 'bootstrap'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
+
 class App extends Component {
 
   todoStorage = JSON.parse(localStorage.getItem('todos'))
@@ -18,7 +19,7 @@ class App extends Component {
   }
 
   addHandler = task => {
-    let todos = this.todoStorage
+    let todos = this.state.todos
     todos.push({
       text: task['text'],
       deadline: task['deadline'].toString(),
@@ -30,7 +31,7 @@ class App extends Component {
   }
 
   deleteHandler = index => {
-    let todos = this.todoStorage
+    let todos = this.state.todos
     let displayedTodos = this.state.todos;
     todos.splice(index, 1)
     this.setState({ todos: this.state.todos })
@@ -38,7 +39,7 @@ class App extends Component {
   }
 
   changeState = index => {
-    let todos = this.todoStorage
+    let todos = this.state.todos
     let todo = todos[index]
     todos[index] = todo
     todo['done'] = todo['done'] ? false : true
