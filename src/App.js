@@ -20,28 +20,42 @@ class App extends Component {
 
   addHandler = task => {
     let todos = this.state.todos
+    // console.log('local',todos)
+    // console.log('storage',this.todoStorage)
+
+    let id
+    if (todos.length === 0) {
+      id = 0
+    } else {
+      id = todos[todos.length - 1]['id']
+    }
     todos.push({
+      id: ++id,
       text: task['text'],
       deadline: task['deadline'].toString(),
       priority: task['priority'],
       done: false
     })
-    this.setState({ todos: this.state.todos })
+    this.setState({ todos })
     localStorage.setItem('todos', JSON.stringify(todos))
   }
 
-  deleteHandler = index => {
+  deleteHandler = id => {
     let todos = this.state.todos
-    let displayedTodos = this.state.todos;
-    todos.splice(index, 1)
-    this.setState({ todos: this.state.todos })
+    // console.log('local',todos)
+    // console.log('storage',this.todoStorage)
+    // let todoStorage = this.todoStorage
+    // todoStorage.splice(todoStorage.map(todo => todo['id']).indexOf(id), 1)
+    todos.splice(todos.map(todo => todo['id']).indexOf(id), 1)
+    this.setState({ todos })
     localStorage.setItem('todos', JSON.stringify(todos))
   }
 
-  changeState = index => {
+  changeState = id => {
     let todos = this.state.todos
-    let todo = todos[index]
-    todos[index] = todo
+    let todoIndex = todos.map(todo => todo['id']).indexOf(id)
+    let todo = todos[todoIndex]
+    todos[todoIndex] = todo
     todo['done'] = todo['done'] ? false : true
     this.setState({ todos: this.state.todos })
     localStorage.setItem('todos', JSON.stringify(todos))
@@ -116,26 +130,25 @@ class App extends Component {
         <DateFilter onDateFilter={this.onDateFilter} />
         <TransitionGroup className="list-group list-group-flush m-3">
           {
-            this.state.todos.map((todo, index) => {
+            this.state.todos.map((todo) => {
               return <CSSTransition
-                key={index}
+                key={todo.id}
                 timeout={500}
                 classNames="item">
                 <Todo
-                  key={index}
+                  key={todo.id}
                   done={todo.done}
                   text={todo.text}
                   deadline={todo.deadline}
                   priority={todo.priority}
-                  deleteHandler={this.deleteHandler.bind(this, index)}
-                  changeState={this.changeState.bind(this, index)}
+                  deleteHandler={this.deleteHandler.bind(this, todo.id)}
+                  changeState={this.changeState.bind(this, todo.id)}
                 />
               </CSSTransition>
 
             })
           }
         </TransitionGroup>
-
         <AddTask addHandler={this.addHandler} />
       </div>
     )
