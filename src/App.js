@@ -8,29 +8,25 @@ import DateFilter from './components/DateFilter'
 import moment from 'moment'
 import 'bootstrap'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-
+import { v4 } from 'uuid'
 
 class App extends Component {
 
   todoStorage = JSON.parse(localStorage.getItem('todos'))
 
   state = {
-    todos: this.todoStorage ? this.todoStorage : [],
+    todos: this.todoStorage ? this.todoStorage : []
   }
 
   addHandler = task => {
-    let todos = this.state.todos
+    if(!this.todoStorage){
+      this.todoStorage=[]
+    }
+    let todos = this.todoStorage
     // console.log('local',todos)
     // console.log('storage',this.todoStorage)
-
-    let id
-    if (todos.length === 0) {
-      id = 0
-    } else {
-      id = todos[todos.length - 1]['id']
-    }
     todos.push({
-      id: ++id,
+      id: v4(),
       text: task['text'],
       deadline: task['deadline'].toString(),
       priority: task['priority'],
@@ -41,7 +37,7 @@ class App extends Component {
   }
 
   deleteHandler = id => {
-    let todos = this.state.todos
+    let todos = this.todoStorage
     // console.log('local',todos)
     // console.log('storage',this.todoStorage)
     // let todoStorage = this.todoStorage
@@ -52,12 +48,12 @@ class App extends Component {
   }
 
   changeState = id => {
-    let todos = this.state.todos
+    let todos = this.todoStorage
     let todoIndex = todos.map(todo => todo['id']).indexOf(id)
     let todo = todos[todoIndex]
     todos[todoIndex] = todo
     todo['done'] = todo['done'] ? false : true
-    this.setState({ todos: this.state.todos })
+    this.setState({ todos })
     localStorage.setItem('todos', JSON.stringify(todos))
   }
 
@@ -68,7 +64,7 @@ class App extends Component {
       })
     } else {
       this.setState({
-        todos: this.state.todos.filter(todo => todo['text'].toLowerCase().includes(value.toLowerCase()))
+        todos: this.todoStorage.filter(todo => todo['text'].toLowerCase().includes(value.toLowerCase()))
       })
     }
   }
@@ -125,7 +121,7 @@ class App extends Component {
     return (
       <div className="container mb-3">
         <h1 className="text-center p-2">TODO's</h1>
-        <Search onSearch={this.onSearch} />
+        <Search onSearch={this.onSearch}/>
         <PriorityFilter onPriorityFilter={this.onPriorityFilter} />
         <DateFilter onDateFilter={this.onDateFilter} />
         <TransitionGroup className="list-group list-group-flush m-3">

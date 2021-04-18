@@ -4,7 +4,7 @@ const DateFilter = props => {
     return (
         <div className="p-2">
             <p>Date filter:</p> 
-            <select className="form-select" defaultValue="All" placeholder="Choose date" onChange={(event) => props.onDateFilter(event.target.value)}>
+            <select className="form-select" defaultValue="All" placeholder="Choose date" onChange={(e) => props.onDateFilter(e.target.value)}>
                 <option value="">All</option>
                 <option>Today</option>
                 <option>This week</option>

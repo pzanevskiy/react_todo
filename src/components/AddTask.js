@@ -29,16 +29,16 @@ class AddTask extends Component {
         }
     }
 
-    textChange = event => {
-        this.setState({ text: event.target.value })
+    textChange = e => {
+        this.setState({ text: e.target.value })
     }
 
-    dateChange = event => {
-        this.setState({ deadline: event.target.value })
+    dateChange = e => {
+        this.setState({ deadline: e.target.value })
     }
 
-    priorityChange = event => {
-        this.setState({ priority: event.target.value })
+    priorityChange = e => {
+        this.setState({ priority: e.target.value })
     }
 
     render() {
